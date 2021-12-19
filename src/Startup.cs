@@ -63,7 +63,7 @@ namespace Reventuous.Sample
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Reventuous.Sample v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -113,7 +113,7 @@ namespace Reventuous.Sample
             services
                 .AddSingleton<IHostedService, StreamPersistentSubscription>( provider => {
                     var subscriptionId = "bankaccount.reactions";
-                    var stream = "$by-category:account";
+                    var stream = "$by-category:Account";
                     var consumerId = "consumer1";
                     var loggerFactory = provider.GetLoggerFactory();
 

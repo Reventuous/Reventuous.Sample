@@ -1,15 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>b63904cc-dbcc-4ea8-ba08-5f04fe86d094</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentResults" Version="3.1.0" />
-    <PackageReference Include="Reventuous" Version="0.0.1" />
-    <PackageReference Include="Reventuous.Redis" Version="0.0.1" />
-    <PackageReference Include="Reventuous.Subscriptions" Version="0.0.1" />
-    <PackageReference Include="Reventuous.Subscriptions.Redis" Version="0.0.1" />
+    <PackageReference Include="Reventuous" Version="0.0.2" />
+    <PackageReference Include="Reventuous.Redis" Version="0.0.2" />
+    <PackageReference Include="Reventuous.Subscriptions" Version="0.0.2" />
+    <PackageReference Include="Reventuous.Subscriptions.Redis" Version="0.0.2" />
     <PackageReference Include="SendGrid" Version="9.25.1" />
     <PackageReference Include="StackExchange.Redis" Version="2.2.88" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />

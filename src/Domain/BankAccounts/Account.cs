@@ -32,7 +32,8 @@ namespace Reventuous.Sample.Domain
                 V1.AccountCreated created => this with {
                     Id = new AccountId(created.AccountId),
                     Name = new AccountName(created.AccountName),
-                    Email = new AccountEmail(created.AccountEmail)
+                    Email = new AccountEmail(created.AccountEmail),
+                    Balance = 0
                 },
                 V1.AccountCredited credited => this with {
                     Balance = Balance + credited.Amount

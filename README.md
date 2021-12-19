@@ -13,25 +13,19 @@ The application follows the Onion architecture:
 - Infrastructure (where services that talk to external systems, e.g. SendGrid, live)
 
 The react to events, a permanent subscription is created which subscribes to the "$bycategory-account" stream.
-To get this stream created, the following Python function needs to be registered as a Redis Gears function, using redisinsight web interface (http://localhost:8001)
+To get this stream created, the following Python function needs to be registered as a Redis Gears function:
 
 ```
 def project(x):
-    # events are added to streams by RedisEventStore class, in a similar way to running these Redis commands
-    # 
-    #   xadd account:1234 * type AccountCreated data '{"AccountId":"3c8e510c-e00a-4b9b-abf4-b2a37152d625"}'
-    #   xadd account:1234 * type AccountCredited data '{"Amount":50}'
-    #
-    # project only events for non-system streams (e.g. not starting with $)
     if x['key'].startswith('$') is False:
         # $all projection
         execute('xadd', '$all', '*', 'stream', x['key'], 'position', x['id'])
 
-        # $by-category:<category>, e.g. for streams like "account:xxxx" we'll get a "$by-category:account" stream
+        # $by-category:<category>, e.g. for streams like "Account:<guid>" a "$by-category:Account" stream will be created
         category = x['key'].split(':')
         execute('xadd', '$by-category:' + category[0], '*', 'stream', x['key'], 'position', x['id'])
 
-        # $by-event-type:<event-type>, e.g. for an event AccountCreated we'll get a "$by-event-type:AccountCreated" stream
+        # $by-event-type:<event-type>, e.g. for an event AccountCreated a "$by-event-type:AccountCreated" stream will be created
         execute('xadd', '$by-event-type:' + x['value']['type'], '*', 'stream', x['key'], 'position', x['id'])
 
 gb = GearsBuilder('StreamReader')
@@ -39,3 +33,9 @@ gb.foreach(project)
 gb.register(prefix='*', duration=1, batch=1, trimStream=False)
 
 ```
+
+Save this to a file, e.g. projections.py, and load this into redis: 
+$ redis-cli rg.pyexecute "`cat projections.py`"
+
+
+User swagger UI to send commands to the 2 end points: http://localhost:5000/swagger
